@@ -21,3 +21,7 @@ message.send(b"Hello from Pycom!")
 
 # If downlink was queued we now have something in the downlink payload variable
 print("Received downlink: {}".format( ubinascii.unhexlify(message.downlink_payload) ) )
+
+# Tear down LTE
+lte_wrapper.stop_lte_connection()
+lte_wrapper.deinit()
