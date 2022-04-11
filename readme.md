@@ -70,3 +70,11 @@ b'48656c6c6f2066726f6d20436c6f756421'
 ```
 
 The variable `message.downlink_payload` then contains the payload of the downlink. 
+
+## Best Practices
+
+### Periodic connecting
+
+It is recommended that you disconnect and then reconnect to the network between phases when you want to send data over the network.
+
+This is because a continuous NB-IoT connection may cause the current cell tower to reject the connection of the Pycom GPy's modem.
