@@ -1,6 +1,8 @@
-# Pycom GPy iotcreators Demonstration
+# Pycom GPy iotcreators Wrapper
 
-Basic Python Script that sniffs WiFi and searches for promiscuous packages, counts them, sends the results over UDP through iotcreators NB-IoT network, and forwards the data to Datacake using HTTPS Webhook.
+This is a wrapper for the Pycom GPy NB-IoT IoT Development Boards and its firmware. 
+
+Less than 10 lines of code are required to connect to the NB-IoT network and transmit uplinks (including receiving downlinks).
 
 ## How to
 
