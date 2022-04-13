@@ -2,6 +2,7 @@ from lib.LTEWrapper import LTEWrapper
 from lib.UDPUplinkMessageWrapper import UDPUplinkMessageWrapper
 from lib.SPS30Wrapper import SPS30Wrapper
 from machine import UART, deepsleep
+from pycoproc import Pycoproc2
 from time import sleep
 
 IOTCREATORS_UDP_IP = "172.27.131.100"
@@ -11,6 +12,9 @@ IOTCREATORS_BAND = 20
 
 SENSOR_WARMUP_TIME = 30
 DEVICE_SLEEP_TIME = 300
+
+# Init Pycom Coprocessor
+py = Pycoproc2()
 
 # UART and SPS30 Init
 uart = UART(1, 115200)
@@ -41,6 +45,6 @@ message.send(sps30_values)
 lte_wrapper.stop_lte_connection()
 lte_wrapper.deinit()
 
-# Deep sleep machine to restart after given amount of idle time
-sleep_amount = (DEVICE_SLEEP_TIME - SENSOR_WARMUP_TIME - lte_wrapper.elapsed_connection_time) * 1000
-deepsleep(sleep_amount)
+# Shut off machine to restart after given amount of idle time
+py.setup_sleep(DEVICE_SLEEP_TIME - SENSOR_WARMUP_TIME - lte_wrapper.elapsed_connection_time)
+py.go_to_sleep(pycom_module_off=True, accelerometer_off=True, wake_interrupt=False)
