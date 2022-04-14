@@ -21,7 +21,10 @@ class LTEWrapper():
         print("LTE Connection took: {} seconds...".format(self.elapsed_connection_time))
 
     def attach_lte(self):
-        self.lte.attach(band=self.band, apn=self.apn)
+        if self.band is None:
+            self.lte.attach(apn=self.apn)
+        else:
+            self.lte.attach(band=self.band, apn=self.apn)
         print("attaching..",end='')
         while not self.lte.isattached():
             time.sleep(0.25)
@@ -44,4 +47,4 @@ class LTEWrapper():
 
     def stop_lte_connection(self):
         self.lte.disconnect()
-        self.lte.detach(reset=True)
+        self.lte.detach(reset=False)

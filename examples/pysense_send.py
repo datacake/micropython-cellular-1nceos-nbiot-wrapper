@@ -11,7 +11,6 @@ from lib.SI7006A20 import SI7006A20
 from lib.LTR329ALS01 import LTR329ALS01
 from lib.MPL3115A2 import MPL3115A2,PRESSURE
 from machine import WDT, Timer
-import time
 import struct
 import math
 
@@ -20,7 +19,7 @@ IOTCREATORS_UDP_PORT = 15683
 IOTCREATORS_APN = "cdp.iot.t-mobile.nl"
 IOTCREATORS_BAND = 8
 SLEEP_TIME = 300
-WATCHDOG_TIMEOUT = 60000
+WATCHDOG_TIMEOUT = 90000
 DEBUG = True
 
 print("\nStarting Example: pysense_send.py\n")
@@ -46,10 +45,10 @@ light = ltr.lux()
 battery = py.read_battery_voltage()
 if DEBUG: print("Temp: {}, Hum: {}, Pres: {}, Light: {}, Bat: {}\n".format(temperature, humidity, pressure, light, battery))
 
-# Init Wrapper
+# Init iotcreators message wrapper for udp
 message = UDPUplinkMessageWrapper(IOTCREATORS_UDP_IP, IOTCREATORS_UDP_PORT)
 
-# Transform sensor data to bytearray and hex data
+# Transform sensor data to bytearray and hex data as payload for udp message
 message_payload = bytearray()
 message_payload.extend(struct.pack('>H', math.floor(temperature * 10)))
 message_payload.extend(struct.pack('>H', math.floor(humidity * 10)))
@@ -57,19 +56,16 @@ message_payload.extend(struct.pack('>b', math.floor(battery * 10)))
 message_payload.extend(struct.pack('>H', math.floor(pressure)))
 message_payload.extend(struct.pack('>H', math.floor(light)))
 
-# Start LTE Connection
+# Start LTE connection
 lte_wrapper = LTEWrapper(band=IOTCREATORS_BAND, apn=IOTCREATORS_APN)
 lte_wrapper.start_lte_connection()
 
-# Add LTE Connection Time for Benchmarking
-message_payload.extend(struct.pack('>H', math.floor(lte_wrapper.elapsed_connection_time)))
+# Add LTE connection time to payload for benchmarking
+message_payload.extend( struct.pack('>H', math.floor( lte_wrapper.elapsed_connection_time )))
 
-# Send a message to iotcreators backend
+# Send a message to iotcreators backend via udp wrapper
 message.send(message_payload)
 
-# Idle a bit
-time.sleep(2)
-
-# Sleep device
+# We are done and we can now sleep the device
 py.setup_sleep(SLEEP_TIME - stopwatch.read())
 py.go_to_sleep(pycom_module_off=True, accelerometer_off=True, wake_interrupt=False)
