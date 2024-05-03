@@ -4,7 +4,13 @@ This is a wrapper for the MicroPython (Pycom GPy compatible) NB-IoT IoT Developm
 
 Less than 10 lines of code are required to connect to the NB-IoT network and transmit uplinks (including receiving downlinks).
 
-- Note: This is a ported code based on a Pycom GPy code. 
+- Note: This is a ported code based on a Pycom GPy code.
+
+## Compatibility
+
+- 1NCE OS: Works perfectly with 1NCE OS UDP message broker: https://1nce.com/de-de/1nce-os
+- Datacake: Works perfectly with Datacake 1NCE OS integration, including downlink: https://docs.datacake.de/integrations/1nce-os and https://datacake.co/
+- DPTechnics Walter: https://www.crowdsupply.com/dptechnics/walter
 
 ## How to
 
