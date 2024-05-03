@@ -1,7 +1,7 @@
 import socket
 
-UDP_DOWNLINK_TIMEOUT = 3
-UDP_DOWNLINK_BUFFER_SIZE = 1024 # Max NB-IoT message size
+UDP_DOWNLINK_TIMEOUT = 10
+UDP_DOWNLINK_BUFFER_SIZE = 128 # Max NB-IoT message size
 
 class UDPUplinkMessageWrapper():
 
@@ -13,6 +13,7 @@ class UDPUplinkMessageWrapper():
 
     def send(self, message):
         self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        self.s.bind(('',self.port))
         self.s.setblocking(True)
         self.s.sendto(message, (self.ip, self.port))
         if self.downlink_enabled is True:

@@ -5,10 +5,10 @@ from machine import UART, deepsleep
 from pycoproc import Pycoproc2
 from time import sleep
 
-IOTCREATORS_UDP_IP = "172.27.131.100"
-IOTCREATORS_UDP_PORT = 15683
-IOTCREATORS_APN = "cdp.iot.t-mobile.nl"
-IOTCREATORS_BAND = 20
+CELLULAR_UDP_IP = "10.60.2.239"
+CELLULAR_UDP_PORT = 4445
+CELLULAR_APN = "iot.1nce.net"
+CELLULAR_BAND = 20
 
 SENSOR_WARMUP_TIME = 30
 DEVICE_SLEEP_TIME = 300
@@ -32,11 +32,11 @@ while sps30_values is None:
 print(sps30_values)
 
 # Start LTE Connection
-lte_wrapper = LTEWrapper(band=IOTCREATORS_BAND, apn=IOTCREATORS_APN)
+lte_wrapper = LTEWrapper(band=CELLULAR_BAND, apn=CELLULAR_APN)
 lte_wrapper.start_lte_connection()
 
 # Init Wrapper
-message = UDPUplinkMessageWrapper(IOTCREATORS_UDP_IP, IOTCREATORS_UDP_PORT)
+message = UDPUplinkMessageWrapper(CELLULAR_UDP_IP, CELLULAR_UDP_PORT)
 
 # Send a message to iotcreators backend
 message.send(sps30_values)

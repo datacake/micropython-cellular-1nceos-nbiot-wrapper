@@ -14,10 +14,11 @@ from machine import WDT, Timer
 import struct
 import math
 
-IOTCREATORS_UDP_IP = "172.27.131.100"
-IOTCREATORS_UDP_PORT = 15683
-IOTCREATORS_APN = "cdp.iot.t-mobile.nl"
-IOTCREATORS_BAND = 8
+CELLULAR_UDP_IP = "10.60.2.239"
+CELLULAR_UDP_PORT = 4445
+CELLULAR_APN = "iot.1nce.net"
+CELLULAR_BAND = 20
+
 SLEEP_TIME = 300
 WATCHDOG_TIMEOUT = 90000
 DEBUG = True
@@ -46,7 +47,7 @@ battery = py.read_battery_voltage()
 if DEBUG: print("Temp: {}, Hum: {}, Pres: {}, Light: {}, Bat: {}\n".format(temperature, humidity, pressure, light, battery))
 
 # Init iotcreators message wrapper for udp
-message = UDPUplinkMessageWrapper(IOTCREATORS_UDP_IP, IOTCREATORS_UDP_PORT)
+message = UDPUplinkMessageWrapper(CELLULAR_UDP_IP, CELLULAR_UDP_PORT)
 
 # Transform sensor data to bytearray and hex data as payload for udp message
 message_payload = bytearray()
@@ -57,7 +58,7 @@ message_payload.extend(struct.pack('>H', math.floor(pressure)))
 message_payload.extend(struct.pack('>H', math.floor(light)))
 
 # Start LTE connection
-lte_wrapper = LTEWrapper(band=IOTCREATORS_BAND, apn=IOTCREATORS_APN)
+lte_wrapper = LTEWrapper(band=CELLULAR_BAND, apn=CELLULAR_APN)
 lte_wrapper.start_lte_connection()
 
 # Add LTE connection time to payload for benchmarking

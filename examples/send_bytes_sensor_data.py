@@ -9,19 +9,19 @@ from lib.UDPUplinkMessageWrapper import UDPUplinkMessageWrapper
 import struct
 import math
 
-IOTCREATORS_UDP_IP = "172.27.131.100"
-IOTCREATORS_UDP_PORT = 15683
-IOTCREATORS_APN = "cdp.iot.t-mobile.nl"
-IOTCREATORS_BAND = 8 
+CELLULAR_UDP_IP = "10.60.2.239"
+CELLULAR_UDP_PORT = 4445
+CELLULAR_APN = "iot.1nce.net"
+CELLULAR_BAND = 20
 
 print("\nStarting Example: send_bytes_sensor_data.py\n")
 
 # Start LTE Connection
-lte_wrapper = LTEWrapper(band=IOTCREATORS_BAND, apn=IOTCREATORS_APN)
+lte_wrapper = LTEWrapper(band=CELLULAR_BAND, apn=CELLULAR_APN)
 lte_wrapper.start_lte_connection()
 
 # Init Wrapper
-message = UDPUplinkMessageWrapper(IOTCREATORS_UDP_IP, IOTCREATORS_UDP_PORT)
+message = UDPUplinkMessageWrapper(CELLULAR_UDP_IP, CELLULAR_UDP_PORT)
 
 # Create some senor data (put your sensor data here)
 temperature = 25.46

@@ -1,5 +1,5 @@
 /*
-    iotcreators Standard Device Template
+    Cellular UDP Standard Device Template for API Devices
     (c) Datacake GmbH
     Feel free to modify
 */

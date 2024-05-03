@@ -1,20 +1,29 @@
 from lib.LTEWrapper import LTEWrapper
 from lib.UDPUplinkMessageWrapper import UDPUplinkMessageWrapper
 
-IOTCREATORS_UDP_IP = "172.27.131.100"
-IOTCREATORS_UDP_PORT = 15683
-IOTCREATORS_APN = "cdp.iot.t-mobile.nl"
-IOTCREATORS_BAND = 8
-exit()
+# Basic example on how to send and receive
+# You can find more examples in examples/ folder
+# Load and start each example on boot.py
+
+# Make sure you queued a downlink via cellular backend (1NCE, or on Datacake) before
+
+CELLULAR_UDP_IP = "10.60.2.239"
+CELLULAR_UDP_PORT = 4445
+CELLULAR_APN = "iot.1nce.net"
+CELLULAR_BAND = 20
+
 # Start LTE Connection
-lte_wrapper = LTEWrapper(band=IOTCREATORS_BAND, apn=IOTCREATORS_APN)
+lte_wrapper = LTEWrapper(band=CELLULAR_BAND, apn=CELLULAR_APN)
 lte_wrapper.start_lte_connection()
 
 # Init Wrapper
-message = UDPUplinkMessageWrapper(IOTCREATORS_UDP_IP, IOTCREATORS_UDP_PORT)
+message = UDPUplinkMessageWrapper(CELLULAR_UDP_IP, CELLULAR_UDP_PORT)
 
 # Send a message to iotcreators backend
 message.send(b"Hello from Pycom!")
+
+# Print received downlink
+print("Received downlink: {}".format( message.downlink_payload ) )
 
 # Tear down LTE
 lte_wrapper.stop_lte_connection()
